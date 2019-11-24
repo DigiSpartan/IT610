@@ -1,0 +1,54 @@
+<html>
+
+<head>
+   <link rel="stylesheet" type="text/css" href="style.css">
+   <title>Login/Register</title>
+</head>
+
+<h1>Login</h1>
+<body>
+<p>Please fill out this information in order to login.</p>
+<form action="" method="post">
+User: <input type="text" name="user"><br>
+Password: <input type="text" name="password"><br>
+<input type="submit" name="submit" value="Submit">
+</form>
+
+<br>
+
+<?php
+
+$servername = "192.168.1.169";
+$username = "mainuser";
+$password = "LabProject19!";
+$dbname = "project";
+
+// Create connection
+$conn = mysqli_connect($servername, $username, $password, $dbname);
+// Check connection
+if($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+if(isset($_POST['submit'])) {
+  $user = $_POST['user'];
+  $pass = $_POST['password'];
+  $sql = "SELECT * FROM user WHERE username = '$user' and password = '$pass'";
+  $result = mysqli_query($conn, $sql) or die(mysqli_error($conn));
+  $rows = mysqli_num_rows($result);
+
+  if($rows==1) {
+    echo "Login successful";
+    header("Location: index.html");
+  } else {
+    echo "Error";
+  }
+}
+
+mysqli_close($conn);
+
+?>
+
+<p>If you have not Registered, please click <a href="register.php"> here</a></p>
+</body>
+</html>
